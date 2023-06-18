@@ -6,6 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import org.jscience.physics.amount.Amount;
+import org.jscience.physics.model.RelativisticModel;
+import javax.measure.unit.SI;
+
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -25,6 +29,15 @@ public class GettingStartedApplication {
     public String index() {
         return "index";
     }
+
+    @GetMapping("/convert")
+    String convert(Map<String, Object> model) {
+    RelativisticModel.select();
+    var energy = Amount.valueOf("12 GeV");
+
+    model.put("result", "E=mc^2: " + energy + " = " + energy.to(SI.KILOGRAM));
+    return "convert";
+}
 
     @GetMapping("/database")
     String database(Map<String, Object> model) {
